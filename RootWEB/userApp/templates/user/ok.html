@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% if loginUser %}
+<font color="red">{{loginUser.user_name}}</font>님 로그인 성공!!!
+{% else %}
+    데이터가 존재하지 않습니다....
+{% endif %}
+<hr/>
+
+<a href="../list?category=sport">전체 사용자 보기</a>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table border="1">
+        {% for u in users %}
+        <tr>
+            <td>{{u.user_id}}</td>
+            <td>{{u.user_pwd}}</td>
+            <td><a href="../detail?id={{u.user_id}}">{{u.user_name}}</a></td>
+            <td>{{u.user_point}}</td>
+            <td>{{u.user_regdate}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
