@@ -5,6 +5,27 @@
     <title>Title</title>
 </head>
 <body>
-bbs intro...
+<table>
+    <tr>
+        <th>NO</th>
+        <th>TITLE</th>
+        <th>WRITER</th>
+        <th>REGDATE</th>
+        <th>CNT</th>
+    </tr>
+    {% for bbs in boards %}
+    <tr>
+        <td>{{bbs.id}}</td>
+        <td><a href="../bbs_read?id={{bbs.id}}">{{bbs.title}}</a></td>
+        <td>{{bbs.writer}}</td>
+        <td>{{bbs.regdate}}</td>
+        <td>{{bbs.viewcnt}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<p/>
+<div align="center">
+    <a href="../createForm">글쓰기</a>
+</div>
 </body>
 </html>

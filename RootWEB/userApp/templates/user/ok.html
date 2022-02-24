@@ -5,12 +5,10 @@
     <title>Title</title>
 </head>
 <body>
-{% if session_user_name %}
+
 <font color="red">{{session_user_name}}</font>님 로그인 성공!!!
 <a href="../logout">로그아웃</a>
-{% else %}
-    데이터가 존재하지 않습니다....
-{% endif %}
+
 <hr/>
 
 <a href="../list?category=sport">전체 사용자 보기</a>
