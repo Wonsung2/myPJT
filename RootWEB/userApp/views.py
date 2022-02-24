@@ -4,13 +4,22 @@ from .models import *
 
 def index(request):
     print(">>>>>> user index")
-    return render(request, 'user/index.html')
+    if request.session.get('user_name') :
+        print('>>>>login session exist!!')
+        context ={
+            'session_user_name' : request.session.get('user_name') ,
+            'session_user_id': request.session.get('user_id'),
+        }
+        return render(request, 'user/ok.html', )
+    else :
+        return render(request, 'user/index.html')
 
 # SELECT * FROM WebUser where user_id = x and user_pwd = x ~ 이런 구문을 써야하지만
 # ORM 을 쓴다는 것은 자동으로 테이블과 클래스를 매핑
 # ORM : modelName.objects.get()
 # select * from WebUser
 # orm : modelName.objects.all()
+#session tracking m
 def login(request):
     print('>>>>>> user login')
     if request.method == 'POST':
@@ -19,15 +28,23 @@ def login(request):
         pwd = request.POST['pwd']
         # model - DB(select)
         # 정보를 담는 작업을 필요로 한다
-        user = WebUser.objects.get(user_id = id, user_pwd = pwd)
-        print('>>>>model value - ', user.user_name)
-        context = {'loginUser' : user}
-        print('>>>> request param - ', id, pwd)
-        return render(request, 'user/ok.html', context)
-    else :
-        print('>>>>request get')
-        # id = request.GET['id']
-        # pwd = request.GET['pwd']
+        context = {}
+        try :
+            user = WebUser.objects.get(user_id = id, user_pwd = pwd)
+            # 세션을 만드는 과정
+            request.session['user_name'] = user.user_name
+            request.session['user_id'] = user.user_id
+            # 세션을 심는 과정
+            context['session_user_name'] = request.session['user_name']
+            context['session_user_id'] = request.session['user_id']
+            return render(request, 'user/ok.html', context)
+        except Exception as e :
+            context['error'] = 'invalid id, pwd'
+            return render(request, 'user/index.html', context)
+    # else :
+    #     print('>>>>request get')
+    #     # id = request.GET['id']
+    #     # pwd = request.GET['pwd']
 
 def list(request):
     print('>>>>user list')
@@ -66,3 +83,13 @@ def join(request):
     WebUser(user_id= id, user_pwd = pwd, user_name = name).save()
     # return render(request, 'user/index.html')
     return redirect('index')
+
+def logout(request):
+    print('>>>>user logout')
+    # 세션을 삭제
+    request.session['user_name'] = {}
+    request.session['user_id'] = {}
+    request.session.modified = True
+
+    # 새로운 request url을 정의할 때
+    return redirect('main')
