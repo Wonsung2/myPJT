@@ -23,4 +23,5 @@ urlpatterns = [
     path('', views.index, name='main'),
     path('user/', include('userApp.urls')),
     path('bbs/', include('bbsApp.urls')),
+    path('chart/', include('staticApp.urls')),
 ]
